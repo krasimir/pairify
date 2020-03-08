@@ -1,0 +1,14 @@
+import React, { useReducer, useEffect } from 'react';
+
+/* a block comment
+*/
+function message() {
+  return `'{test}foobar(test)}`;
+}
+// a single line comment
+
+function test() {
+  return 'Hello world' + message();
+}
+
+test();

@@ -1,0 +1,26 @@
+{
+  "name": "scope-bracket",
+  "version": "0.1.0",
+  "description": "You have source code, line and position. It gives you the range/selection of the surrounding brackets.",
+  "main": "scope-bracket.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/krasimir/scope-bracket.git"
+  },
+  "keywords": [
+    "scope",
+    "bracket",
+    "selection",
+    "range",
+    "match"
+  ],
+  "author": "Krasimir Tsonev",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/krasimir/scope-bracket/issues"
+  },
+  "homepage": "https://github.com/krasimir/scope-bracket#readme"
+}
