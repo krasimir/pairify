@@ -4,7 +4,8 @@
   "description": "You have source code, line and position. It gives you the range/selection of the surrounding brackets.",
   "main": "scope-bracket.js",
   "scripts": {
-    "test": "node test.js"
+    "test": "./node_modules/.bin/jest ./__tests__/*.spec.js",
+    "test-watch": "./node_modules/.bin/jest ./__tests__/*.spec.js -- watch"
   },
   "repository": {
     "type": "git",
@@ -22,5 +23,16 @@
   "bugs": {
     "url": "https://github.com/krasimir/scope-bracket/issues"
   },
-  "homepage": "https://github.com/krasimir/scope-bracket#readme"
+  "homepage": "https://github.com/krasimir/scope-bracket#readme",
+  "devDependencies": {
+    "jest": "25.1.0"
+  },
+  "jest": {
+    "setupFilesAfterEnv": ["./__jest/index.js"],
+    "verbose": false,
+    "globals": {},
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  }
 }
