@@ -1,6 +1,6 @@
 {
   "name": "pairify",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "You have source code, line and position. It gives you the range/selection of the surrounding brackets.",
   "main": "pairify.js",
   "scripts": {

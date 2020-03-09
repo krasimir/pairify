@@ -12,9 +12,9 @@ The library matches the following balanced pairs:
 * `<` and `>`
 * `'` and `'`
 * `"` and `"`
-* `\`` and `\``
+* `` ` `` and `` ` ``
 * `/*` and `*/`
-* `//` and `\\n`
+* `//` and `\n`
 
 ## Installation
 
