@@ -1,7 +1,7 @@
 const assert = require('assert');
 const fs = require('fs');
 
-const sb = require('../scope-bracket.js');
+const sb = require('../src/scope-bracket.js');
 const readFile = file =>
 	fs.readFileSync(__dirname + '/samples/' + file).toString('utf8');
 
