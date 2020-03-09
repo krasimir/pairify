@@ -1,16 +1,16 @@
 {
-  "name": "scope-bracket",
-  "version": "0.1.0",
+  "name": "pairify",
+  "version": "0.2.0",
   "description": "You have source code, line and position. It gives you the range/selection of the surrounding brackets.",
-  "main": "scope-bracket.js",
+  "main": "pairify.js",
   "scripts": {
     "test": "./node_modules/.bin/jest ./__tests__/*.spec.js",
     "test-watch": "./node_modules/.bin/jest ./__tests__/*.spec.js --watch",
-    "release": "yarn test && browserify ./src/scope-bracket.js -o ./scope-bracket.js --standalone ScopeBracket && terser ./scope-bracket.js -o ./scope-bracket.min.js --compress --mangle"
+    "release": "yarn test && browserify ./src/pairify.js -o ./pairify.js --standalone Pairify && terser ./pairify.js -o ./pairify.min.js --compress --mangle"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/krasimir/scope-bracket.git"
+    "url": "git+https://github.com/krasimir/pairify.git"
   },
   "keywords": [
     "scope",
@@ -22,9 +22,9 @@
   "author": "Krasimir Tsonev",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/krasimir/scope-bracket/issues"
+    "url": "https://github.com/krasimir/pairify/issues"
   },
-  "homepage": "https://github.com/krasimir/scope-bracket#readme",
+  "homepage": "https://github.com/krasimir/pairify#readme",
   "devDependencies": {
     "browserify": "16.5.0",
     "jest": "25.1.0",

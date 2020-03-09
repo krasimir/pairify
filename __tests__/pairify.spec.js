@@ -1,11 +1,11 @@
 const assert = require('assert');
 const fs = require('fs');
 
-const sb = require('../src/scope-bracket.js');
+const sb = require('../src/pairify');
 const readFile = file =>
 	fs.readFileSync(__dirname + '/samples/' + file).toString('utf8');
 
-describe('Given the scope-bracket library', () => {
+describe('Given the pairify library', () => {
 	describe('when we pass code', () => {
 		it('should properly analyze it', () => {
 			const res = sb.analyze('foo bar { a b c } foo() bar');
