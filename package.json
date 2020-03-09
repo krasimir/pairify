@@ -5,7 +5,7 @@
   "main": "scope-bracket.js",
   "scripts": {
     "test": "./node_modules/.bin/jest ./__tests__/*.spec.js",
-    "test-watch": "./node_modules/.bin/jest ./__tests__/*.spec.js -- watch"
+    "test-watch": "./node_modules/.bin/jest ./__tests__/*.spec.js --watch"
   },
   "repository": {
     "type": "git",
@@ -30,9 +30,14 @@
   "jest": {
     "setupFilesAfterEnv": ["./__jest/index.js"],
     "verbose": false,
-    "globals": {},
+    "globals": {
+
+    },
     "testPathIgnorePatterns": [
       "/node_modules/"
+    ],
+    "modulePathIgnorePatterns": [
+      "/__tests__/samples/result-(.*)\\.json"
     ]
   }
 }

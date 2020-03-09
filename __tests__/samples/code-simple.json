@@ -1,0 +1,16 @@
+[
+  {"type":"curly","from":[1,15],"to":[1,40]},
+  {"type":"single-quotes","from":[1,46],"to":[1,53]},
+  {"type":"comment-block","from":[3,1],"to":[4,3]},
+  {"type":"round","from":[5,17],"to":[5,19]},
+  {"type":"curly","from":[6,12],"to":[6,18]},
+  {"type":"round","from":[6,24],"to":[6,30]},
+  {"type":"template-literal","from":[6,10],"to":[6,32]},
+  {"type":"curly","from":[5,20],"to":[7,2]},
+  {"type":"comment-single-line","from":[8,1],"to":[8,25]},
+  {"type":"round","from":[10,14],"to":[10,16]},
+  {"type":"single-quotes","from":[11,10],"to":[11,23]},
+  {"type":"round","from":[11,33],"to":[11,35]},
+  {"type":"curly","from":[10,17],"to":[12,2]},
+  {"type":"round","from":[14,5],"to":[14,7]}
+]

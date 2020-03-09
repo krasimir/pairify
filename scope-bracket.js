@@ -1,17 +1,20 @@
+const CATEGORY_COMMENT = 'comment';
+const CATEGORY_STRING = 'string';
+const CATEGORY_BLOCK = 'block';
 const COMMENTS = [
-  { type: 'comment-single-line', start: '//', end: '\n '},
-  { type: 'comment-block', start: '/*', end: '*/' }
+  { type: 'comment-single-line', start: '//', end: '\n ', category: CATEGORY_COMMENT },
+  { type: 'comment-block', start: '/*', end: '*/', category: CATEGORY_COMMENT }
 ]
 const STRINGS = [
-  { type: 'single-quotes', start: '\'', end: '\'' },
-  { type: 'double-quotes', start: '"', end: '"' },
-  { type: 'template-literal', start: '`', end: '`' }
+  { type: 'single-quotes', start: '\'', end: '\'', category: CATEGORY_STRING },
+  { type: 'double-quotes', start: '"', end: '"', category: CATEGORY_STRING },
+  { type: 'template-literal', start: '`', end: '`', category: CATEGORY_STRING }
 ]
 const BLOCKS = [
-  { type: 'round', start: '(', end: ')' },
-  { type: 'curly', start: '{', end: '}' },
-  { type: 'square', start: '[', end: ']' },
-  { type: 'angle', start: '<', end: '>' }
+  { type: 'round', start: '(', end: ')', category: CATEGORY_BLOCK },
+  { type: 'curly', start: '{', end: '}', category: CATEGORY_BLOCK },
+  { type: 'square', start: '[', end: ']', category: CATEGORY_BLOCK },
+  { type: 'angle', start: '<', end: '>', category: CATEGORY_BLOCK }
 ]
 const ALL = COMMENTS.concat(STRINGS, BLOCKS);
 const NEW_LINE = '\n';
@@ -30,10 +33,6 @@ function pair(type, from, to) {
     to: [ to.line, to.position ]
   }
 }
-
-function findScope(code, line, position) {
-  
-}
 function analyze(code) {
   let line = 1;
   let stack = [];
@@ -47,40 +46,73 @@ function analyze(code) {
     return res;
   }, {});
   
-
-  for(let position = 0; position < code.length; position++) {
-    const char = code[position];
-    const nextChar = code[position + 1];
+  let position = 0;
+  for(let i = 0; i < code.length; i++) {
+    const char = code[i];
+    const nextChar = code[i + 1];
     const starter = starters[char] || starters[char + nextChar] || null;
     const ender = enders[char] || enders[char + nextChar] || null;
 
-    // if (starter) console.log(starter.type, stack.length, `ender=${!!ender}`);
-
     if (char === NEW_LINE) {
+      // searching for a single line comment closing
+      for(let j = stack.length-1; j >= 0; j--) {
+        if (stack[j].token.type === 'comment-single-line') {
+          const s = stack[j];
+          stack.splice(j);
+          finds.push(
+            pair(
+              'comment-single-line',
+              { line: s.line, position: s.position },
+              { line: line, position: position + 1 }
+            )
+          );
+          break;
+        }
+      }
       line += 1;
+      position = 0;
+
     } else {
+      position += 1;
       if (stack.length > 0) {
         if (ender) {
-          // console.log('     ', ender.type, stack[stack.length - 1].token.type);
-          if (ender.type === stack[stack.length - 1].token.type) {
-            const s = stack.pop();
-            // console.log(stack);
-            finds.push(
-              pair(
-                ender.type,
-                { line: s.line, position: s.position },
-                { line: line, position: position + 1 }
-              )
-            )
-          } else if (starter !== null) {
-            stack.push(match(starter, line, position + 1));  
+          // console.log('---->', line + ':' + position, ender.type, stack);
+          let foundInStack = false;
+          let inStringOrComment = false;
+          // walking back the stack
+          for(let j = stack.length-1; j >= 0; j--) {
+            if (
+              stack[j].token.category === CATEGORY_COMMENT ||
+              stack[j].token.category === CATEGORY_STRING
+            ) {
+              inStringOrComment = true;
+            }
+            if (ender.type === stack[j].token.type) {
+              foundInStack = true;
+              if (ender.category === CATEGORY_BLOCK && inStringOrComment) {
+                break;
+              }
+              const s = stack[j];
+              stack.splice(j);
+              finds.push(
+                pair(
+                  ender.type,
+                  { line: s.line, position: s.position },
+                  { line: line, position: position + ender.end.length }
+                )
+              );
+              break;
+            }
+          }
+          if (!foundInStack && starter !== null) {
+            stack.push(match(starter, line, position));  
           }
         } else if (starter !== null) {
-          stack.push(match(starter, line, position + 1));
+          stack.push(match(starter, line, position));
         }
       } else {
         if (starter !== null) {
-          stack.push(match(starter, line, position + 1));
+          stack.push(match(starter, line, position));
         }
       }
     }
@@ -90,6 +122,5 @@ function analyze(code) {
 }
 
 module.exports = {
-  analyze,
-  findScope
+  analyze
 }
