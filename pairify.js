@@ -20,18 +20,20 @@ const BLOCKS = [
 const ALL = COMMENTS.concat(STRINGS, BLOCKS);
 const NEW_LINE = '\n';
 
-function match(token, line, position) {
+function match(token, line, position, cursor) {
   return {
     token,
     line,
-    position
+    position,
+    cursor
   }
 }
-function pair(type, from, to) {
+function pair(type, from, to, body) {
   return {
     type,
     from: [ from.line, from.position ],
-    to: [ to.line, to.position ]
+    to: [ to.line, to.position ],
+    body: [body[0], body[1] - body[0]]
   }
 }
 function analyze(code) {
@@ -51,6 +53,7 @@ function analyze(code) {
   for(let i = 0; i < code.length; i++) {
     const char = code[i];
     const nextChar = code[i + 1];
+    const prevChar = code[i - 1];
     const starter = starters[char] || starters[char + nextChar] || null;
     const ender = enders[char] || enders[char + nextChar] || null;
 
@@ -64,7 +67,8 @@ function analyze(code) {
             pair(
               'comment-single-line',
               { line: s.line, position: s.position },
-              { line: line, position: position + 1 }
+              { line: line, position: position + 1 },
+              [s.cursor, i + 1]
             )
           );
           break;
@@ -77,7 +81,6 @@ function analyze(code) {
       position += 1;
       if (stack.length > 0) {
         if (ender) {
-          // console.log('---->', line + ':' + position, ender.type, stack);
           let foundInStack = false;
           let inStringOrComment = false;
           // walking back the stack
@@ -88,6 +91,12 @@ function analyze(code) {
             ) {
               inStringOrComment = true;
             }
+            // This is a patch for the cases where we have a fat arrow
+            // as a JSX attribute. For example:
+            // <button onClick={() => setCount(count + 1)}>
+            if (ender.type === 'angle' && prevChar === '=') {
+              break;
+            }
             if (ender.type === stack[j].token.type) {
               foundInStack = true;
               if (ender.category === CATEGORY_BLOCK && inStringOrComment) {
@@ -95,25 +104,27 @@ function analyze(code) {
               }
               const s = stack[j];
               stack.splice(j);
+              // registering a result
               finds.push(
                 pair(
                   ender.type,
                   { line: s.line, position: s.position },
-                  { line: line, position: position + ender.end.length }
+                  { line: line, position: position + ender.end.length },
+                  [s.cursor, i + 1]
                 )
               );
               break;
             }
           }
           if (!foundInStack && starter !== null) {
-            stack.push(match(starter, line, position));  
+            stack.push(match(starter, line, position, i));  
           }
         } else if (starter !== null) {
-          stack.push(match(starter, line, position));
+          stack.push(match(starter, line, position, i));
         }
       } else {
         if (starter !== null) {
-          stack.push(match(starter, line, position));
+          stack.push(match(starter, line, position, i));
         }
       }
     }
