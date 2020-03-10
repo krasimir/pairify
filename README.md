@@ -57,7 +57,8 @@ We'll get the following result:
 
 ## API
 
-* Pairify.analyze(code: string): Pair[]
+* `Pairify.analyze(code: string): Pair[]` - parses all the code and returns all the balanced matches
+* `Pairify.match(code: string, line:number, position: number): Pair[]` - returns balanced matches based on the provided line and position.
 
 where `Pair` is the following
 
@@ -66,5 +67,6 @@ where `Pair` is the following
   type: string; // curly, round, square, angle, single-quotes, double-quotes, template-literal, comment-single-line or comment-block
   from: number[]; // [line, position],
   to: number[]; // [line, position],
+  body: number[] // [char, length]
 }
 ```
