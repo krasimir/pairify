@@ -40,13 +40,13 @@ We'll get the following result:
 
 ```json
 [
-  {"type":"curly","from":[1,29],"to":[1,42]},
-  {"type":"round","from":[1,19],"to":[1,43]},
-  {"type":"double-quotes","from":[2,10],"to":[2,26]},
-  {"type":"curly","from":[1,44],"to":[3,2]},
-  {"type":"curly","from":[4,23],"to":[4,37]},
-  {"type":"round","from":[4,22],"to":[4,38]},
-  {"type":"round","from":[4,12],"to":[4,39]}
+  {"type":"curly","from":[1,29],"to":[1,42],"body":[28,13]},
+  {"type":"round","from":[1,19],"to":[1,43],"body":[18,24]},
+  {"type":"double-quotes","from":[2,10],"to":[2,26],"body":[54,16]},
+  {"type":"curly","from":[1,44],"to":[3,2],"body":[43,45]},
+  {"type":"curly","from":[4,23],"to":[4,37],"body":[111,14]},
+  {"type":"round","from":[4,22],"to":[4,38],"body":[110,16]},
+  {"type":"round","from":[4,12],"to":[4,39],"body":[100,27]}
 ]
 ```
 
