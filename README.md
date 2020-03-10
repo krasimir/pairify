@@ -1,8 +1,8 @@
 # Pairify
 
-It analyzes JavaScript (and not only) code and searches for balanced matches.
+Finds balanced matches.
 
-👉 [Playground](https://poet.krasimir.now.sh/e/2XL7W5Q08CZ#code.js)
+👉 [Playground](https://pairify.now.sh/)
 
 The library matches the following balanced pairs:
 
@@ -16,12 +16,7 @@ The library matches the following balanced pairs:
 * `/*` and `*/`
 * `//` and `\n`
 
-## Installation
-
-* `npm install pairify` / `yarn add pairify`
-* Or directly from here [https://unpkg.com/pairify@latest/pairify.min.js](https://unpkg.com/pairify@latest/pairify.min.js)
-
-## Usage
+## Example
 
 Consider the following `code.js` file:
 
@@ -54,6 +49,11 @@ We'll get the following result:
   {"type":"round","from":[4,12],"to":[4,39]}
 ]
 ```
+
+## Installation
+
+* `npm install pairify` / `yarn add pairify`
+* Or directly from here [https://unpkg.com/pairify@latest/pairify.min.js](https://unpkg.com/pairify@latest/pairify.min.js)
 
 ## API
 
