@@ -182,7 +182,7 @@ function test() {
 		});
 	});
 	describe('when we use the `match` method', () => {
-		it('should return the matching pairs at given line:position', () => {
+			it('should return the matching pairs at given line:position', () => {
 			const code = `function test() {
   return (
     <button onClick={() => setCount(count + 1)}>
@@ -196,6 +196,39 @@ function test() {
         { type: 'round', from: [ 2, 10 ], to: [ 6, 4 ], body: [ 27, 83 ] },
         { type: 'curly', from: [ 1, 17 ], to: [ 7, 2 ], body: [ 16, 97 ] }
       ])
+		});
+		it('should return the matching pairs even when the pair is on one line', () => {
+			const code = `useEffect(() => {
+  document.title = \`You clicked \${count} times\`;
+});`
+			expect(sb.match(code, 2, 21)).toStrictEqual([
+        {
+          type: 'template-literal',
+          from: [ 2, 20 ],
+          to: [ 2, 48 ],
+          body: [ 37, 28 ]
+        },
+        { type: 'curly', from: [ 1, 17 ], to: [ 3, 2 ], body: [ 16, 52 ] },
+        { type: 'round', from: [ 1, 10 ], to: [ 3, 3 ], body: [ 9, 60 ] }
+			]);
+			expect(sb.match(code, 2, 48)).toStrictEqual([
+        {
+          type: 'template-literal',
+          from: [ 2, 20 ],
+          to: [ 2, 48 ],
+          body: [ 37, 28 ]
+        },
+        { type: 'curly', from: [ 1, 17 ], to: [ 3, 2 ], body: [ 16, 52 ] },
+        { type: 'round', from: [ 1, 10 ], to: [ 3, 3 ], body: [ 9, 60 ] }
+			]);
+			expect(sb.match(code, 2, 20)).toStrictEqual([
+        { type: 'curly', from: [ 1, 17 ], to: [ 3, 2 ], body: [ 16, 52 ] },
+        { type: 'round', from: [ 1, 10 ], to: [ 3, 3 ], body: [ 9, 60 ] }
+			]);
+			expect(sb.match(code, 2, 49)).toStrictEqual([
+        { type: 'curly', from: [ 1, 17 ], to: [ 3, 2 ], body: [ 16, 52 ] },
+        { type: 'round', from: [ 1, 10 ], to: [ 3, 3 ], body: [ 9, 60 ] }
+      ]);
 		});
 	})
 });

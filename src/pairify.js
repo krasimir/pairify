@@ -137,6 +137,8 @@ function matchPairs(code, line, position) {
     .filter(pair => {
       if (line > pair.from[0] && line < pair.to[0]) {
         return true;
+      } else if (pair.from[0] === pair.to[0] && pair.from[0] === line) {
+        return position > pair.from[1] && position <= pair.to[1];
       } else if (line === pair.from[0]) {
         return position >= pair.from[1];
       } else if (line === pair.to[0]) {
