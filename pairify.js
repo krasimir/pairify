@@ -133,8 +133,23 @@ function analyze(code) {
   return finds;
 }
 
+function matchPairs(code, line, position) {
+  return analyze(code)
+    .filter(pair => {
+      if (line > pair.from[0] && line < pair.to[0]) {
+        return true;
+      } else if (line === pair.from[0]) {
+        return position >= pair.from[1];
+      } else if (line === pair.to[0]) {
+        return position < pair.to[1];
+      }
+      return false;
+    })
+}
+
 module.exports = {
-  analyze
+  analyze,
+  match: matchPairs
 }
 },{}]},{},[1])(1)
 });

@@ -181,4 +181,21 @@ function test() {
 			expect(code.substr(res[3].body[0], res[3].body[1])).toBe('{() => setCount(count + 1)}');
 		});
 	});
+	describe('when we use the `match` method', () => {
+		it('should return the matching pairs at given line:position', () => {
+			const code = `function test() {
+  return (
+    <button onClick={() => setCount(count + 1)}>
+      Click me
+    </button>
+  );
+}`
+			const res = sb.match(code, 3, 9);
+			expect(res).toStrictEqual([
+        { type: 'angle', from: [ 3, 5 ], to: [ 3, 49 ], body: [ 33, 44 ] },
+        { type: 'round', from: [ 2, 10 ], to: [ 6, 4 ], body: [ 27, 83 ] },
+        { type: 'curly', from: [ 1, 17 ], to: [ 7, 2 ], body: [ 16, 97 ] }
+      ])
+		});
+	})
 });
